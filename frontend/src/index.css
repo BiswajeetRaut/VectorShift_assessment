@@ -1,0 +1,265 @@
+/* ===== VectorShift-like theme variables ===== */
+:root{
+  --bg: #0b1220;
+  --panel: linear-gradient(180deg,#0f1724,#071026);
+  --node-border: rgba(255,255,255,0.06);
+  --muted: #9fb1c9;
+  --accent: #6ea8ff;
+  --accent-2: #7c5cff;
+  --chip-bg: #e6eef8;
+  --chip-fg: #0b2a4a;
+  --glass: rgba(255,255,255,0.03);
+  --shadow: 0 8px 24px rgba(2,6,23,0.6);
+  --radius: 12px;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Page background and main canvas */
+body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  background: radial-gradient(circle at 10% 10%, rgba(124,92,255,0.06), transparent 4%),
+              linear-gradient(180deg, #041021 0%, #071026 100%);
+  color: #e6eef8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Make the canvas area a little airy */
+.react-flow {
+  padding: 20px;
+}
+
+/* ===== Node base (keeps previous class vs-node) ===== */
+.vs-node {
+  width: 260px;                /* standard node width */
+  min-height: 78px;
+  border: 1px solid var(--node-border);
+  background: var(--panel);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 10px;
+  box-sizing: border-box;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  color: #e6eef8;
+  overflow: visible;
+}
+
+/* Node hover and lift */
+.vs-node:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124,92,255,0.28);
+  box-shadow: 0 18px 40px rgba(12,16,40,0.6);
+}
+
+/* React Flow adds selected class to nodes — style it */
+.react-flow__node.selected .vs-node,
+.vs-node.react-flow__node--selected,
+.vs-node[data-selected="true"] {
+  outline: 3px solid rgba(124,92,255,0.18);
+  border-color: rgba(124,92,255,0.4);
+  transform: translateY(-6px) scale(1.01);
+}
+
+/* Node header */
+.vs-node__header {
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding-bottom:6px;
+}
+
+/* header icon helper (optional) */
+.vs-node__header i {
+  width: 18px;
+  height: 18px;
+  display:inline-block;
+  border-radius:6px;
+  background: linear-gradient(180deg,var(--accent),var(--accent-2));
+  box-shadow: 0 4px 10px rgba(124,92,255,0.18), inset 0 -2px 6px rgba(255,255,255,0.04);
+}
+
+/* Node body (content area) */
+.vs-node__body {
+  font-size: 13px;
+  color: var(--muted);
+  display:block;
+  line-height:1.3;
+}
+
+/* form controls inside nodes */
+.vs-node input[type="text"],
+.vs-node input[type="number"],
+.vs-node select,
+.vs-node textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: #e6eef8;
+  outline: none;
+  font-size: 13px;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+
+/* focus states for inputs */
+.vs-node input:focus,
+.vs-node select:focus,
+.vs-node textarea:focus {
+  border-color: rgba(110,168,255,0.9);
+  box-shadow: 0 6px 20px rgba(110,168,255,0.06);
+}
+
+/* textarea specifics */
+.vs-node textarea {
+  min-height: 56px;
+  max-height: 320px;
+  resize: none; /* we autosize via JS */
+  font-family: inherit;
+}
+
+/* small labels inside nodes */
+.vs-node label {
+  display:block;
+  font-size: 11px;
+  color: #cfe3ff;
+  margin-bottom: 6px;
+}
+
+/* chips for variables */
+.vs-chip-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+.vs-chip {
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  box-shadow: 0 4px 8px rgba(2,6,23,0.25);
+}
+
+/* ========= Handles (react-flow) ========= */
+/* default handle style override so it's visible and pretty */
+.react-flow__handle {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(180deg,#fff, #e6eef8);
+  border: 2px solid rgba(0,0,0,0.25);
+  box-shadow: 0 6px 14px rgba(2,6,23,0.45);
+  transition: transform .12s ease, box-shadow .12s ease, background .12s;
+}
+
+/* target vs source differentiation */
+.react-flow__handle.source {
+  background: linear-gradient(180deg,var(--accent),var(--accent-2));
+  border-color: rgba(124,92,255,0.6);
+}
+.react-flow__handle.target {
+  background: linear-gradient(180deg,#fff, #e6eef8);
+  border-color: rgba(0,0,0,0.2);
+}
+
+/* enlarge handle on hover to help discoverability */
+.react-flow__handle:hover {
+  transform: scale(1.25);
+  box-shadow: 0 10px 30px rgba(12,16,40,0.5);
+}
+
+/* show little labels near handles (optional) */
+.react-flow__handle::after {
+  content: "";
+  display:block;
+}
+
+/* Toolbar area (left or top depending on your layout) */
+.toolbar {
+  background: rgba(255,255,255,0.02);
+  border-radius: 10px;
+  padding: 8px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width: 160px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+}
+
+/* toolbar items (draggables) */
+.toolbar .item {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  font-size: 13px;
+  color: #e6eef8;
+  border: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+}
+.toolbar .item:active { cursor: grabbing; transform: translateY(1px); }
+
+/* submit button */
+button.vs-submit {
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(124,92,255,0.18);
+}
+button.vs-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(124,92,255,0.26);
+}
+
+/* small helpers for readable text in the UI */
+.kv { display:flex; gap:8px; align-items:center; }
+.kv span.key { font-weight:700; color:#fff; font-size:13px; }
+.kv span.val { color:var(--muted); font-size:13px; }
+
+/* responsive tweaks — smaller nodes on narrow screens */
+@media (max-width: 640px) {
+  .vs-node { width: 200px; }
+  .toolbar { min-width: 140px; }
+}
+
+/* Smooth width transition for autosizing textarea */
+.vs-node textarea {
+  transition: width 140ms ease, height 120ms ease;
+  will-change: width, height;
+}
+
+/* delete btn hover polish */
+.node-delete-btn {
+  transition: background-color .12s ease, transform .08s ease;
+}
+.node-delete-btn:hover {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-1px);
+}
+
+/* small styling for the delete button that appears on edges */
+.edge-delete-btn {
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease, opacity .14s ease;
+  opacity: 0.95;
+  border: none;
+  outline: none;
+}
+
+.edge-delete-btn:hover {
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: 0 10px 30px rgba(12,16,40,0.45);
+}
+
+.edge-delete-btn.selected {
+  background: linear-gradient(90deg,#7c5cff,#6ea8ff) !important;
+}
